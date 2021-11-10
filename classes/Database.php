@@ -4,7 +4,7 @@ namespace App\Classes;
 use PDO;
 use PDOException;
 
-class Db extends PDO 
+class Database extends PDO 
 {
 
     CONST DBHOST = 'localhost';   

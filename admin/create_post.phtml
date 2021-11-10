@@ -1,0 +1,56 @@
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Administration</a></li>
+    <li class="breadcrumb-item"><a href="#">Gestion des articles</a></li>
+    <li class="breadcrumb-item active"><a href="#">Créer un nouvel article</a></li>
+</ol>
+</nav> 
+<div class="container-fluid div-admin">
+    <?php include 'admin_menu.phtml'; ?>
+
+    <div class="container">
+        <h1>Rédiger un article</h1>
+        <form action="" method="post" class="create-form">
+            <div class="div-selects">
+                <div>
+                    <label for="category">Catégorie de l'article</label>
+                    <select name="category" id="category" class="custom-select <?= !empty($error['category'])? 'is-invalid' : '' ?>">
+                        <option>Choisir une catégorie</option>
+                      <?php  foreach($categories AS $categorie): ?>
+                        <option value="<?= $categorie["id"] ?>"><?= $categorie["name"] ?></option>
+                      <?php  endforeach ?>
+                    </select>
+                    <?php if (!empty($errors['category'])) { ?>
+                    <div class="text-danger"><?= $errors["category"]?></div>
+                    <?php  } ?>
+                </div>
+                <div>
+                    <label for="author">Auteur</label>
+                    <select name="author" id="author" class="custom-select <?= !empty($error['author'])? 'is-invalid' : '' ?>">
+                        <option>Choisir un auteur</option>
+                    <?php  foreach($authors AS $author): ?>
+                        <option value="<?= $author["id"] ?>"><?= $author["firstname"]." ". $author["lastname"] ?></option>
+                    <?php  endforeach ?>
+                </select>
+                <?php if (!empty($errors['author'])) { ?>
+                    <div class="text-danger"><?=  $errors['author'] ?></div>
+              <?php  } ?>
+                </div>
+            </div>
+            <label for="title">Titre de l'article</label>
+            <input name="title" type="text" id="title" class="form-control<?= !empty($error['postTitle'])? 'is-invalid' : '' ?>" value="<?= $title ?>">
+            <?php if (!empty($errors['title'])) { ?>
+            <div class="text-danger"><?=  $errors['title'] ?></div>
+            <?php  } ?>
+            <label for="content">Texte de l'article</label>
+            <textarea name="content" id="content" cols="60" rows="10" class="form-control<?= !empty($error['content']) ? 'is-invalid' : ''; ?>"><?= $content ?></textarea>
+            <?php if (!empty($errors['content'])) { ?>
+            <div class="text-danger"><?= $errors['content']  ?></div>
+            <?php  } ?>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+    </div>
+
+    </div>
+
+</div>

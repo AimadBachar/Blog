@@ -1,0 +1,30 @@
+<div class="container-fluid">
+    <div class="header-div">
+            <h1>Accueil du blog</h1>
+            <p>Les derniers articles postés</p>
+    </div>
+    <main class="content">
+        <h2 class=text-center>Les nouvelles du Net</h2>
+        <div class="d-lg-flex flex-wrap p-2">
+
+<?php  foreach($posts as $value)
+            { ?>
+                <article class="card shadow m-2 d-flex flex-column">
+                    <div class="card-header">
+                        <h3><?= $value["title"] ?></h3>
+                        <p>Dans la catégorie</p>
+                        <a class="btn btn-dark" href=""><?= $value["name"] ?></a>
+                    </div>
+                    <div class="card-body">
+                        <p><?= $value["content"] ?></p>
+                        <a class="btn btn-warning" href="show_post.php?id=<?= $value["id"] ?>">Lire la suite</a>
+                    </div>
+                    <div class="card-footer">
+                        <p>Rédigé par <strong><?=$value["firstname"]. " ".$value["lastname"]  ?></strong> le <?= $value["created_at"] ?></p>
+                    </div>
+                </article>
+
+            <?php  } ?>
+            </div>
+    </main>
+</div>

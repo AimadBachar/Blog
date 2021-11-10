@@ -1,12 +1,15 @@
 <?php
 use App\Autoloader;
-use App\Classes\Posts;
+use App\classes\PostManager;
 
 require_once './Autoloader.php';
 Autoloader::register();
 
 
-$post = new Posts();
-$post = $post->findAll();
+$post = new PostManager();
+$posts = $post->indexPosts();
 
-var_dump($post);
+// affichage
+$title = "Accueil du Blog";
+$template = "index";
+include './layout.phtml';

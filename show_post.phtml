@@ -1,0 +1,48 @@
+<div class="container-fluid">
+        <main class="d-lg-flex flex-wrap p-2 content">
+            <div class="article col-md-6">
+                <div class="header-div">
+                    <h1><?= $onePost["title"] ?></h1>
+                    <p>
+                        Dans la catégorie :
+                        <strong class="badge badge-dark">
+                            <?= $onePost["name"] ?>
+                        </strong>
+                    </p>
+                    <p>Rédigé par <?= $onePost["firstname"]." ".$onePost["lastname"]." ".$onePost["created_at"] ?></p>
+                </div>
+                <div class="content-article">
+                    <p><?= $onePost["content"] ?></p>
+
+                </div>
+            </div>
+            <div class="comment col-md-6">
+                <h4 class=text-center>Liste des commentaires()</h4>
+                <?php 
+                    foreach($comments as $comment) { ?>
+                    <div class="comments">
+                        <p><i class="far fa-comment"></i> Rédigé par <strong><?= $comment["nickname"] ?></strong></p>
+                        <p><?= $comment["content"] ?></p>
+                    </div>
+                  <?php  } ?>
+                    <form class="comment-form" action="" method="post">
+                        <fieldset>
+                            <legend>Nouveau commentaire</legend>
+                            <input type="hidden" id="post_id" name="post_id" value="<?=$id?>">
+                            <label for="nickname">Pseudo :</label><br>
+                            <input type="text" id="nickname" name="nickname" class="form-control"><br>
+                            <?php if (!empty($errors['nickname'])) { ?>
+                            <div class="text-danger"><?= $errors["nickname"]?></div>
+                            <?php  } ?>
+                            <label for="content">Commentaire :</label><br>
+                            <textarea id="content" name="content" class="form-control"></textarea><br><br>
+                            <?php if (!empty($errors['content'])) { ?>
+                            <div class="text-danger"><?= $errors["content"]?></div>
+                            <?php  } ?>
+                            <button class="btn-success btn-submit" type="submit">Ajouter</button>
+                            <button class="btn-info btn-reset" type="reset">Annuler</button>
+                        </fieldset>
+                    </form>
+            </div>
+        </main>
+</div>

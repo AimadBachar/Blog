@@ -1,0 +1,70 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Administration</a></li>
+        <li class="breadcrumb-item active"><a href="#">Gestion des articles</a></li>
+    </ol>
+</nav>
+<div class="container-fluid div-admin">
+    <?php include 'admin_menu.phtml'; ?>
+
+    <div class="admin-content">
+
+        <header class="admin-header">
+            <h1>Gestion des articles</h1>
+        </header>
+        <a href="create_post.php" class="btn btn-primary"><i class="fas fa-plus"></i> Créer un article</a>
+
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Création</th>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Auteur</th>
+                    <th scope="col">Catégorie</th>
+                    <th scope="col">Modifier</th>
+                    <th scope="col">Supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($articles as $article) : ?>
+                    <tr>
+                        <th scope="row"><?= $article["id"] ?></th>
+                        <td><?= $article["created_at"] ?></td>
+                        <td><a href="show_post.php?id=<?= $article["id"] ?>"><?= $article["title"] ?></a></td>
+                        <td><?= $article["firstname"] . " " . $article["lastname"] ?></td>
+                        <td><?= $article["name"] ?></td>
+                        <td><a href="update_post.php?id=<?= $article["id"] ?>" class="btn btn-warning"><i class="fas fa-pen-nib"></i></a></td>
+                        <td><button class="btn btn-danger" data-toggle="modal" data-target="#myModal"><i class="fas fa-trash"></i></button></td>
+                    </tr>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModallLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header bg-danger">
+                                    <h5 class="modal-title" id="myModalLabel">Attention vous allez supprimer un article</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Cliquez sur supprimer pour supprimer cet article</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="admin_post_index.php?id=<?= $article["id"] ?>" class="btn btn-danger">Supprimer</a>
+                                    <button type="button" class="btn btn-dark"  data-dismiss="modal" >Annuler</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <?php endforeach ?>
+            </tbody>
+        </table>
+        <p>Liste des posts clasés par ordre chronologique inversé
+            <strong>(<?= count($articles) ?> artices au total)</strong>
+        </p>
+
+    </div>
+
+</div>
