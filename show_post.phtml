@@ -19,7 +19,7 @@
             <div class="comment col-md-6">
                 <h4 class=text-center>Liste des commentaires()</h4>
                 <?php 
-                    foreach($comments as $comment) { ?>
+                    foreach($allComments as $comment) { ?>
                     <div class="comments">
                         <p><i class="far fa-comment"></i> Rédigé par <strong><?= $comment["nickname"] ?></strong></p>
                         <p><?= $comment["content"] ?></p>

@@ -45,8 +45,8 @@ body {
 }
 
 .header-div {
-    /* background-image: url(../assets/banner.jpg); */
-    background-color: #FFC107;
+    background-image: url(../assets/banner.jpg);
+    /* background-color: #FFC107; */
     background-size : cover;
     width: 100%;
     height: 400px;
