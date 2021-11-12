@@ -12,4 +12,4 @@ $posts = $post->indexPosts();
 // affichage
 $title = "Accueil du Blog";
 $template = "index";
-include './layout.phtml';
+include './views/layout.phtml';

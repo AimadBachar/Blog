@@ -37,37 +37,18 @@ class CommentManager implements Manager
     }
 
     public function add(array $comment)
-    {
-        $nickname = '';
-        $content = '';
+    {   
+        // list($post_id, $nickname, $content) = $comment;
+        $nickname = $comment['nickname'];
+        $content = $comment['content'];
+        $post_id = $comment['post_id'];
+        //requéte SQL + mot de passe crypté
+        $sql = "INSERT INTO `comments` (`nickname`, `content`, `post_id`) 
+            VALUES ('$nickname', '$content', '$post_id')";
+        // Exécuter la requête sur la base de données
 
-        $comment = $_POST;
-        if (!empty($_POST)) {
-            $nickname = $_POST["nickname"];
-            $post_id = $_POST["post_id"];
-            $content = $_POST["content"];
-
-            $errors = [];
-
-            if (empty($nickname)) {
-                $errors['nickname'] = 'Le pseudo est obligatoire';
-            }
-            if (empty($nickname)) {
-                $errors['content'] = 'Le message est obligatoire';
-            } elseif (strlen($content) < 3) {
-                $errors['content'] = 'Le message doit faire au moins 3 caractères';
-            }
-
-            if (empty($errors)) {
-                //requéte SQL + mot de passe crypté
-                $sql = "INSERT INTO `comments` (`nickname`, `content`, `post_id`) 
-                    VALUES ('$nickname', '$content', '$post_id')";
-                // Exécuter la requête sur la base de données
-
-                $addComment = $this->db->prepare($sql);
-                $addComment->execute();
-            }
-        }
+        $addComment = $this->db->prepare($sql);
+        $addComment->execute();
     }
 
     public function update(array $values, int $id)
@@ -81,4 +62,7 @@ class CommentManager implements Manager
         $deleteComment = $this->db->prepare($sql);
         $deleteComment->execute(array($id));
     }
+
+
+    // 
 }
