@@ -4,9 +4,11 @@ namespace App\Classes;
 
 use App\Interfaces\Manager;
 use App\Classes\Database;
+use App\Traits\Notification;
 
 class CommentManager implements Manager
 {
+    use Notification;
 
     private $db;
 
@@ -38,17 +40,14 @@ class CommentManager implements Manager
 
     public function add(array $comment)
     {   
-        // list($post_id, $nickname, $content) = $comment;
-        $nickname = $comment['nickname'];
-        $content = $comment['content'];
-        $post_id = $comment['post_id'];
-        //requéte SQL + mot de passe crypté
-        $sql = "INSERT INTO `comments` (`nickname`, `content`, `post_id`) 
-            VALUES ('$nickname', '$content', '$post_id')";
+        $sql = 'INSERT INTO
+                    comments
+                    (nickname, content, post_id)
+                VALUES (?, ?, ?)';
         // Exécuter la requête sur la base de données
 
-        $addComment = $this->db->prepare($sql);
-        $addComment->execute();
+        $this->db->launchQuery($sql, $comment);
+        return $this->db->lastInsertId() ? true : false;
     }
 
     public function update(array $values, int $id)

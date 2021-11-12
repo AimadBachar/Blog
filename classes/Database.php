@@ -31,5 +31,12 @@ class Database extends PDO
 
         }
     }
+    
+    public function launchQuery(string $sql, array $params = [])
+    {
+        $req = parent::prepare($sql);
+        $req->execute($params);
+        return $req;
+    }
 
 }

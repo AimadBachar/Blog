@@ -2,8 +2,7 @@
 use App\Autoloader;
 use App\classes\PostManager;
 
-require_once './Autoloader.php';
-Autoloader::register();
+include_once './App.php';
 
 
 $post = new PostManager();

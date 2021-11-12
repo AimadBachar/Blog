@@ -1,11 +1,15 @@
 <?php
 
-use App\Autoloader;
+if (!ctype_digit($_GET['id']) or !array_key_exists('id', $_GET)) {
+    header('Location: index.php');
+    exit();
+}
+
+include_once './App.php';
+
 use App\Classes\PostManager;
 use App\Classes\CommentManager;
 
-require_once './Autoloader.php';
-Autoloader::register();
 
 $id = $_GET['id'];
 // reqête un article selon son id
@@ -18,35 +22,29 @@ $comment = new CommentManager();
 $allComments = $comment->get($id);
 
 // Récupération commentaire et test
-$nickname = '';
-$content = '';
+if (!empty($_POST) && isset($_POST['addComment'])) {
+    $commentInstance = new CommentManager();
 
-if (!empty($_POST)) {
-    $nickname = $_POST["nickname"];
-    $post_id = $_POST["post_id"];
-    $content = $_POST["content"];
-
-    $errors = [];
-
-    if (empty($nickname)) {
-        $errors['nickname'] = 'Le pseudo est obligatoire';
+    if ($_POST['pseudo'] == '') {
+        $commentInstance->setErrorNotification("pseudoError", "Pseudo est obligatoire");
     }
-    if (empty($content)) {
-        $errors['content'] = 'Le message est obligatoire';
-    } elseif (strlen($content) < 3) {
-        $errors['content'] = 'Le message doit faire au moins 3 caractères';
+    if ($_POST['content'] == '') {
+        $commentInstance->setErrorNotification("commentError", "Commentaire est obligatoire");
     }
 
-    if (empty($errors)) {
-        // Ajout un commentaire si pas d'erreur
-       
-        $comment->add($_POST);
-        $allComments = $comment->get($id);
+    if (!$commentInstance->checkErrorsNotification("pseudoError") && !$commentInstance->checkErrorsNotification("commentError")) {
+        $values = array(
+            $_POST['pseudo'],
+            $_POST['content'],
+            $_POST['post_id']
+        );
+        $commentInstance->add($values);
     }
 }
 
 
-
+$commentInstance = $commentInstance ?? new CommentManager();
+$comments = $commentInstance->get($_GET['id']);
 
 // affichage
 $title = $onePost["title"];

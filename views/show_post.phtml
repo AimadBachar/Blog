@@ -1,48 +1,60 @@
 <div class="container-fluid">
-        <main class="d-lg-flex flex-wrap p-2 content">
-            <div class="article col-md-6">
-                <div class="header-div">
-                    <h1><?= $onePost["title"] ?></h1>
-                    <p>
-                        Dans la catégorie :
-                        <strong class="badge badge-dark">
-                            <?= $onePost["name"] ?>
-                        </strong>
-                    </p>
-                    <p>Rédigé par <?= $onePost["firstname"]." ".$onePost["lastname"]." ".$onePost["created_at"] ?></p>
-                </div>
-                <div class="content-article">
-                    <p><?= $onePost["content"] ?></p>
+    <main class="d-lg-flex flex-wrap p-2 content">
+        <div class="article col-md-6">
+            <div class="header-div">
+                <h1><?= $onePost["title"] ?></h1>
+                <p>
+                    Dans la catégorie :
+                    <strong class="badge badge-dark">
+                        <?= $onePost["name"] ?>
+                    </strong>
+                </p>
+                <p>Rédigé par <?= $onePost["firstname"] . " " . $onePost["lastname"] . " " . $onePost["created_at"] ?></p>
+            </div>
+            <div class="content-article">
+                <p><?= $onePost["content"] ?></p>
 
+            </div>
+        </div>
+        <div class="comment col-md-6">
+            <h4 class=text-center>Liste des commentaires()</h4>
+            <?php
+            foreach ($allComments as $comment) { ?>
+                <div class="comments">
+                    <p><i class="far fa-comment"></i> Rédigé par <strong><?= $comment["nickname"] ?></strong></p>
+                    <p><?= $comment["content"] ?></p>
                 </div>
-            </div>
-            <div class="comment col-md-6">
-                <h4 class=text-center>Liste des commentaires()</h4>
-                <?php 
-                    foreach($allComments as $comment) { ?>
-                    <div class="comments">
-                        <p><i class="far fa-comment"></i> Rédigé par <strong><?= $comment["nickname"] ?></strong></p>
-                        <p><?= $comment["content"] ?></p>
-                    </div>
-                  <?php  } ?>
-                    <form class="comment-form" action="" method="post">
-                        <fieldset>
-                            <legend>Nouveau commentaire</legend>
-                            <input type="hidden" id="post_id" name="post_id" value="<?=$id?>">
-                            <label for="nickname">Pseudo :</label><br>
-                            <input type="text" id="nickname" name="nickname" class="form-control"><br>
-                            <?php if (!empty($errors['nickname'])) { ?>
-                            <div class="text-danger"><?= $errors["nickname"]?></div>
-                            <?php  } ?>
-                            <label for="content">Commentaire :</label><br>
-                            <textarea id="content" name="content" class="form-control"></textarea><br><br>
-                            <?php if (!empty($errors['content'])) { ?>
-                            <div class="text-danger"><?= $errors["content"]?></div>
-                            <?php  } ?>
-                            <button class="btn-success btn-submit" type="submit">Ajouter</button>
-                            <button class="btn-info btn-reset" type="reset">Annuler</button>
-                        </fieldset>
-                    </form>
-            </div>
-        </main>
+            <?php  } ?>
+
+            <!-- Formulaire de saisie d'un nouveau commentaire pour cet article -->
+            <form class="py-5" action="<?= $_SERVER['REQUEST_URI'] ?>" method="post">
+                <!-- Utilisation d'un champ caché pour spécifier à quel article rattacher le commentaire -->
+                <input type="hidden" id="post_id" name="post_id" value="<?= $id ?>">
+
+                <fieldset class="bg-warning text-dark pt-4 px-4 rounded">
+                    <legend>Nouveau commentaire</legend>
+                    <ul class="list-unstyled">
+                        <li class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="pseudo">Pseudo </label>
+                            <div class="col-sm-9">
+                                <input class="form-control <?= $commentInstance->checkErrorsNotification('pseudoError') ? 'is-invalid' : '' ?>" type="text" id="pseudo" name="pseudo">
+                                <?= $commentInstance->getInvalidFeedback('pseudoError') ?>
+                            </div>
+                        </li>
+                        <li class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="content">Commentaire </label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control <?= $commentInstance->checkErrorsNotification('commentError') ? 'is-invalid' : '' ?>" id="content" name="content" rows="3"></textarea>
+                                <?= $commentInstance->getInvalidFeedback('commentError') ?>
+                            </div>
+                        </li>
+                        <li class="text-right">
+                            <button class="btn btn-dark" type="submit" name="addComment">Ajouter</button>
+                            <a class="btn btn-secondary" href="index.php">Annuler</a>
+                        </li>
+                    </ul>
+                </fieldset>
+            </form>
+        </div>
+    </main>
 </div>
